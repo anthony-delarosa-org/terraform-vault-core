@@ -23,6 +23,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: |
+          cd dev && ls -la
+          cat test.txt
           echo ${{ secrets.ENVIRONMENT }} has been Deployed!
           
   DeployStg:
@@ -32,8 +34,8 @@ jobs:
     environment:
       name: Staging
     steps:
-      - name: Deploy
-        run: |
+      - uses: actions/checkout@v3
+      - run: |
           echo ${{ secrets.ENVIRONMENT }} has been Deployed!
   DeployProd:
     runs-on: ubuntu-latest
@@ -42,6 +44,6 @@ jobs:
     environment:
       name: Production
     steps:
-      - name: Deploy
-        run: |
+      - uses: actions/checkout@v3
+      - run: |
           echo ${{ secrets.ENVIRONMENT }} has been Deployed!
