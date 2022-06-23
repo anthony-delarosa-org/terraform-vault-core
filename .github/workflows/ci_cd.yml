@@ -15,7 +15,6 @@ on:
   
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-      
   DeployDev:
     runs-on: ubuntu-latest
     name: Deploy to Dev
@@ -24,7 +23,7 @@ jobs:
     steps:
       - name: Deploy
       - uses: actions/checkout@v3
-      - run: |
+      - run: Run Commands
           cd dev && ls -la
           cat test.txt
           echo ${{ secrets.ENVIRONMENT }} has been Deployed!
@@ -38,7 +37,9 @@ jobs:
     steps:
       - name: Deploy
       - uses: actions/checkout@v3
-      - run: |
+      - run: Run Commands
+          cd stg && ls -la
+          cat test.txt
           echo ${{ secrets.ENVIRONMENT }} has been Deployed!
 
   DeployProd:
@@ -50,7 +51,7 @@ jobs:
     steps:
       - name: Deploy
       - uses: actions/checkout@v3
-      - run: |
+      - run: Run Commands
           cd prod && ls -la
           cat test.txt
           echo ${{ secrets.ENVIRONMENT }} has been Deployed!
