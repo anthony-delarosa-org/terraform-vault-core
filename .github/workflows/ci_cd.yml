@@ -39,8 +39,6 @@ jobs:
       - name: Deploy
       - uses: actions/checkout@v3
       - run: |
-          cd stg && ls -la
-          cat test.txt
           echo ${{ secrets.ENVIRONMENT }} has been Deployed!
 
   DeployProd:
