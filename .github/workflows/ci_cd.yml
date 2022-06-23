@@ -39,6 +39,7 @@ jobs:
           cd stg && ls -la
           cat test.txt
           echo ${{ secrets.ENVIRONMENT }} has been Deployed!
+
   DeployProd:
     runs-on: ubuntu-latest
     name: Deploy to Prod
