@@ -21,8 +21,8 @@ jobs:
     environment:
       name: Development
     steps:
-      - uses: actions/checkout@v3
       - name: Deploy
+      - uses: actions/checkout@v3
       - run: |
           cd dev && ls -la
           cat test.txt
