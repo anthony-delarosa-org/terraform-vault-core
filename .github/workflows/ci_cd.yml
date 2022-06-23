@@ -38,7 +38,7 @@ jobs:
     steps:
       - name: Deploy
         uses: actions/checkout@v3
-        run: |
+      - run: |
           cd dev && ll
           echo ${{ secrets.ENVIRONMENT }} has been Deployed!
           
