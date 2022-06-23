@@ -51,6 +51,7 @@ jobs:
       name: Staging
     steps:
       - name: Deploy
+        uses: actions/checkout@v3
         run: |
           cd stg && ls -la
           cat test.txt
@@ -64,6 +65,7 @@ jobs:
       name: Production
     steps:
       - name: Deploy
+        uses: actions/checkout@v3
         run: |
           cd prod && ls -la
           cat test.txt
