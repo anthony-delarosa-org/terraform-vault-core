@@ -39,7 +39,7 @@ jobs:
       - name: Deploy
         uses: actions/checkout@v3
       - run: |
-          cd dev && ll
+          cd dev && ls -la
           echo ${{ secrets.ENVIRONMENT }} has been Deployed!
           
   DeployStg:
