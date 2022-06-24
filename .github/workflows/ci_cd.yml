@@ -31,7 +31,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Lint Code Base
-        uses: github/super-linter@v4
+        uses: github/super-linter/slim@v4
         env:
           VALIDATE_ALL_CODEBASE: false
           DEFAULT_BRANCH: main
@@ -59,7 +59,7 @@ jobs:
 
       - name: Terraform Plan
         id: plan
-        run: terraform plan -no-color -out=plan.out -var="hcp_client_id=${{ secrets.HCP_CLIENT_ID }}" -var="hcp_client_secret=${{ secrets.HCP_CLIENT_SECRET }}" -var="hvn_id=${{ secrets.HVN_ID }}" -var="aws_default_region=${{ secrets.AWS_DEFAULT_REGION }}" && terraform show -json plan.out > plan.out.json
+        run: terraform plan -no-color -out=plan.out -var="hcp_client_id=${{ secrets.HCP_CLIENT_ID }}" -var="hcp_client_secret=${{ secrets.HCP_CLIENT_SECRET }}" -var="hvn_id=${{ secrets.HVN_ID }}" -var="aws_default_region=${{ secrets.AWS_DEFAULT_REGION }}" && terraform show -json plan.out > plan.out.json && ls -la
         continue-on-error: false
 
       - name: terraform-compliance
