@@ -29,6 +29,13 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v3
+
+      - name: Lint Code Base
+        uses: github/super-linter@v4
+        env:
+          VALIDATE_ALL_CODEBASE: false
+          DEFAULT_BRANCH: main
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
       - name: HashiCorp - Setup Terraform
         uses: hashicorp/setup-terraform@v2.0.0
@@ -52,8 +59,23 @@ jobs:
 
       - name: Terraform Plan
         id: plan
-        run: terraform plan -no-color -var="hcp_client_id=${{ secrets.HCP_CLIENT_ID }}" -var="hcp_client_secret=${{ secrets.HCP_CLIENT_SECRET }}" -var="hvn_id=${{ secrets.HVN_ID }}" -var="aws_default_region=${{ secrets.AWS_DEFAULT_REGION }}"
+        run: terraform plan -no-color -var="hcp_client_id=${{ secrets.HCP_CLIENT_ID }}" -var="hcp_client_secret=${{ secrets.HCP_CLIENT_SECRET }}" -var="hvn_id=${{ secrets.HVN_ID }}" -var="aws_default_region=${{ secrets.AWS_DEFAULT_REGION }}" -out=plan.out && terraform show -json plan.out > plan.out.json
         continue-on-error: false
+
+      - name: terraform-compliance
+        uses: terraform-compliance/github_action@main
+        with:
+          plan: plan.out.json
+          features: ssh://git@github.com/terraform-compliance/user-friendly-features.git
+
+      - name: Terraform Plan Status
+        if: steps.plan.outcome == 'failure'
+        run: exit 1
+
+#      - name: Terraform Apply
+#        id: apply
+#        run: terraform apply -aut-approve -no-color -var="hcp_client_id=${{ secrets.HCP_CLIENT_ID }}" -var="hcp_client_secret=${{ secrets.HCP_CLIENT_SECRET }}" -var="hvn_id=${{ secrets.HVN_ID }}" -var="aws_default_region=${{ secrets.AWS_DEFAULT_REGION }}"
+      
           
   DeployStg:
     runs-on: ubuntu-latest
