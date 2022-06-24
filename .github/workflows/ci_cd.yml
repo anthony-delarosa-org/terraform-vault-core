@@ -53,7 +53,7 @@ jobs:
       - name: Terraform Plan
         id: plan
         run: terraform plan -no-color -var="hcp_client_id=${{ secrets.HCP_CLIENT_ID }}" -var="hcp_client_secret=${{ secrets.HCP_CLIENT_SECRET }}" -var="hvn_id=${{ secrets.HVN_ID }}" -var="aws_default_region=${{ secrets.AWS_DEFAULT_REGION }}"
-        continue-on-error: true
+        continue-on-error: false
           
   DeployStg:
     runs-on: ubuntu-latest
@@ -64,8 +64,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: |
-          cd stg && ls -la
-          cat test.txt
           echo ${{ secrets.ENVIRONMENT }} has been Deployed!
 
   DeployProd:
@@ -77,6 +75,4 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: |
-          cd prod && ls -la
-          cat test.txt
           echo ${{ secrets.ENVIRONMENT }} has been Deployed!
