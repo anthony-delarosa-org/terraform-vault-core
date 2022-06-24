@@ -59,14 +59,20 @@ jobs:
 
       - name: Terraform Plan
         id: plan
-        run: terraform plan -no-color -out=plan.out -var="hcp_client_id=${{ secrets.HCP_CLIENT_ID }}" -var="hcp_client_secret=${{ secrets.HCP_CLIENT_SECRET }}" -var="hvn_id=${{ secrets.HVN_ID }}" -var="aws_default_region=${{ secrets.AWS_DEFAULT_REGION }}" && terraform show -json plan.out > plan.out.json && ls -la
+        run: terraform plan -no-color -out=plan.out -var="hcp_client_id=${{ secrets.HCP_CLIENT_ID }}" -var="hcp_client_secret=${{ secrets.HCP_CLIENT_SECRET }}" -var="hvn_id=${{ secrets.HVN_ID }}" -var="aws_default_region=${{ secrets.AWS_DEFAULT_REGION }}" && terraform show -json plan.out > plan.out.json
         continue-on-error: false
 
-      - name: terraform-compliance
-        uses: terraform-compliance/github_action@main
-        with:
-          plan: plan.out.json
-          features: ssh://git@github.com/terraform-compliance/user-friendly-features.git
+      - name: Terraform-Compliance
+        id: terraform-compliance from remote repo
+        run: |
+          ls -la
+          terraform-compliance -p plan.out.json -f git:ssh://git@github.com/terraform-compliance/user-friendly-features.git
+
+      #- name: terraform-compliance
+      #  uses: terraform-compliance/github_action@main
+      #  with:
+      #    plan: plan.out.json
+      #    features: ssh://git@github.com/terraform-compliance/user-friendly-features.git
 
       - name: Terraform Plan Status
         if: steps.plan.outcome == 'failure'
