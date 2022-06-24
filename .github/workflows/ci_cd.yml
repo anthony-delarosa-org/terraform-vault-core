@@ -63,7 +63,7 @@ jobs:
         continue-on-error: false
 
       - name: Terraform-Compliance
-        id: terraform-compliance from remote repo
+        id: terraform-compliance
         run: |
           ls -la
           terraform-compliance -p plan.out.json -f git:ssh://git@github.com/terraform-compliance/user-friendly-features.git
