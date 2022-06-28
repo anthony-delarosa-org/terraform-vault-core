@@ -62,7 +62,7 @@ jobs:
           cli_config_credentials_token: ${{ secrets.TFC_API_KEY }}
           terraform_wrapper: false
         env:
-          TF_WORKSPACE: ${{ env.environment }}
+          TF_WORKSPACE: "hcp-${{ env.environment }}"
 
       - name: Terraform fmt
         id: fmt
@@ -115,7 +115,7 @@ jobs:
           cli_config_credentials_token: ${{ secrets.TFC_API_KEY }}
           terraform_wrapper: false
         env:
-          TF_WORKSPACE: ${{ env.environment }}
+          TF_WORKSPACE: "hcp-${{ env.environment }}"
 
       - name: Terraform fmt
         id: fmt
