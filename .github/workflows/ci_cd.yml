@@ -25,7 +25,7 @@ on:
   # Default Working Directory
 defaults:
   run:
-    working-directory: ./workspaces/hcp
+    working-directory: workspaces/hcp
   
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -43,9 +43,6 @@ jobs:
         name: Setup TFLint
         with:
           tflint_version: v0.29.0
-
-      - name: Show files
-        run: ls -la
 
       - name: Show version
         run: tflint --version
