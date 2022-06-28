@@ -1,9 +1,9 @@
 terraform {
-  backend "remote" {
+  cloud {
     organization = "anthony-devoperations"
 
     workspaces {
-      prefix = "hcp-"
+      tags = "hcp"
     }
   }
 }
