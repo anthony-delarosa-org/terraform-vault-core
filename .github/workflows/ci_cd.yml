@@ -51,6 +51,8 @@ jobs:
     env:
       environment: dev
       work_dir: ./workspaces/hcp
+      TF_WORKSPACE: "hcp-${{ env.environment }}"
+
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v3
@@ -61,8 +63,6 @@ jobs:
           terraform_version: 1.2.2
           cli_config_credentials_token: ${{ secrets.TFC_API_KEY }}
           terraform_wrapper: false
-        env:
-          TF_WORKSPACE: "hcp-${{ env.environment }}"
 
       - name: Terraform fmt
         id: fmt
@@ -110,6 +110,8 @@ jobs:
 #    env:
 #      environment: stg
 #      work_dir: ./workspaces/hcp
+#      TF_WORKSPACE: "hcp-${{ env.environment }}"
+
 #    steps:
 #      - name: Checkout Repo
 #        uses: actions/checkout@v3
