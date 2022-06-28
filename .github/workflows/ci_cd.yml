@@ -74,8 +74,8 @@ jobs:
         id: init
         working-directory: ${{ env.work_dir }}
         run: |
-          terraform init
           terraform workspace new ${{ env.TF_WORKSPACE }}
+          terraform init
 
       - name: Terraform Validate
         id: validate
