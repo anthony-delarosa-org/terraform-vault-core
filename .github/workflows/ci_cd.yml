@@ -23,9 +23,9 @@ on:
         required: true
 
   # Default Working Directory
-defaults:
-  run:
-    working-directory: workspaces/hcp
+#defaults:
+#  run:
+#    working-directory: workspaces/hcp
   
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
