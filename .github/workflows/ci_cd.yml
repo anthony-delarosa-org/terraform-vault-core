@@ -71,12 +71,16 @@ jobs:
       - name: Terraform Init
         id: init
         working-directory: ${{ env.work_dir }}
-        run: terraform init
+        run: 
+          terraform workspace select hcp-${{ env.environment }}
+          terraform init
 
       - name: Terraform Validate
         id: validate
         working-directory: ${{ env.work_dir }}
-        run: terraform validate -no-color
+        run: 
+          terraform workspace select hcp-${{ env.environment }}
+          terraform validate -no-color
 
       - name: Terraform Plan
         id: plan
@@ -126,12 +130,16 @@ jobs:
       - name: Terraform Init
         id: init
         working-directory: ${{ env.work_dir }}
-        run: terraform init
+        run: 
+          terraform workspace select hcp-${{ env.environment }}
+          terraform init
 
       - name: Terraform Validate
         id: validate
         working-directory: ${{ env.work_dir }}
-        run: terraform validate -no-color
+        run: 
+          terraform workspace select hcp-${{ env.environment }}
+          terraform validate -no-color
 
       - name: Terraform Plan
         id: plan
