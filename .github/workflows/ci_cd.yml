@@ -72,22 +72,18 @@ jobs:
         id: init
         working-directory: ${{ env.work_dir }}
         run: 
-          terraform workspace select hcp-${{ env.environment }}
-          terraform init
+          terraform workspace select hcp-${{ env.environment }} && terraform init
 
       - name: Terraform Validate
         id: validate
         working-directory: ${{ env.work_dir }}
         run: 
-          terraform workspace select hcp-${{ env.environment }}
           terraform validate -no-color
 
       - name: Terraform Plan
         id: plan
         working-directory: ${{ env.work_dir }}
-        run: 
-          terraform workspace select hcp-${{ env.environment }}
-          terraform ${{ github.event.inputs.plan }} -var="hcp_client_id=${{ secrets.HCP_CLIENT_ID }}" -var="hcp_client_secret=${{ secrets.HCP_CLIENT_SECRET }}" -var="hvn_id=hv-personal-${{ env.environment }}" -var="aws_default_region=${{ secrets.AWS_DEFAULT_REGION }}"
+        run: terraform ${{ github.event.inputs.plan }} -var="hcp_client_id=${{ secrets.HCP_CLIENT_ID }}" -var="hcp_client_secret=${{ secrets.HCP_CLIENT_SECRET }}" -var="hvn_id=hv-personal-${{ env.environment }}" -var="aws_default_region=${{ secrets.AWS_DEFAULT_REGION }}"
         continue-on-error: false
 
       - name: Terraform Plan Status
@@ -100,59 +96,59 @@ jobs:
 #        working-directory: ${{ env.work_dir }}
 #        run: terraform ${{ github.event.inputs.apply }} -auto-approve -var="hcp_client_id=${{ secrets.HCP_CLIENT_ID }}" -var="hcp_client_secret=${{ secrets.HCP_CLIENT_SECRET }}" -var="hvn_id=hv-personal-${{ env.environment }}" -var="aws_default_region=${{ secrets.AWS_DEFAULT_REGION }}"
 
-  StageHCP:
-    #if: "contains(github.event.head_commit.message, 'build')"
-    name: Deploy HCP
-    needs: [Lint]
-    runs-on: ubuntu-latest
-    env:
-      environment: stg
-      work_dir: ./workspaces/hcp
-    steps:
-      - name: Checkout Repo
-        uses: actions/checkout@v3
-
-      - name: HashiCorp - Setup Terraform
-        uses: hashicorp/setup-terraform@v2.0.0
-        with:
-          terraform_version: 1.2.2
-          cli_config_credentials_token: ${{ secrets.TFC_API_KEY }}
-          terraform_wrapper: false
-        env:
-          TF_WORKSPACE: "hcp-${{ env.environment }}"
-
-      - name: Terraform fmt
-        id: fmt
-        working-directory: ${{ env.work_dir }}
-        run: terraform fmt -check
-        continue-on-error: true
-
-      - name: Terraform Init
-        id: init
-        working-directory: ${{ env.work_dir }}
-        run: 
-          terraform workspace select hcp-${{ env.environment }}
-          terraform init
-
-      - name: Terraform Validate
-        id: validate
-        working-directory: ${{ env.work_dir }}
-        run: 
-          terraform workspace select hcp-${{ env.environment }}
-          terraform validate -no-color
-
-      - name: Terraform Plan
-        id: plan
-        working-directory: ${{ env.work_dir }}
-        run: 
-          terraform workspace select hcp-${{ env.environment }}
-          terraform ${{ github.event.inputs.plan }} -var="hcp_client_id=${{ secrets.HCP_CLIENT_ID }}" -var="hcp_client_secret=${{ secrets.HCP_CLIENT_SECRET }}" -var="hvn_id=hv-personal-${{ env.environment }}" -var="aws_default_region=${{ secrets.AWS_DEFAULT_REGION }}"
-        continue-on-error: false
-
-      - name: Terraform Plan Status
-        if: steps.plan.outcome == 'failure'
-        working-directory: ${{ env.work_dir}}
-        run: exit 1
+#  StageHCP:
+#    #if: "contains(github.event.head_commit.message, 'build')"
+#    name: Deploy HCP
+#    needs: [Lint]
+#    runs-on: ubuntu-latest
+#    env:
+#      environment: stg
+#      work_dir: ./workspaces/hcp
+#    steps:
+#      - name: Checkout Repo
+#        uses: actions/checkout@v3
+#
+#      - name: HashiCorp - Setup Terraform
+#        uses: hashicorp/setup-terraform@v2.0.0
+#        with:
+#          terraform_version: 1.2.2
+#          cli_config_credentials_token: ${{ secrets.TFC_API_KEY }}
+#          terraform_wrapper: false
+#        env:
+#          TF_WORKSPACE: "hcp-${{ env.environment }}"
+#
+#      - name: Terraform fmt
+#        id: fmt
+#        working-directory: ${{ env.work_dir }}
+#        run: terraform fmt -check
+#        continue-on-error: true
+#
+#      - name: Terraform Init
+#        id: init
+#        working-directory: ${{ env.work_dir }}
+#        run: 
+#          terraform workspace select hcp-${{ env.environment }}
+#          terraform init
+#
+#      - name: Terraform Validate
+#        id: validate
+#        working-directory: ${{ env.work_dir }}
+#        run: 
+#          terraform workspace select hcp-${{ env.environment }}
+#          terraform validate -no-color
+#
+#      - name: Terraform Plan
+#        id: plan
+#        working-directory: ${{ env.work_dir }}
+#        run: 
+#          terraform workspace select hcp-${{ env.environment }}
+#          terraform ${{ github.event.inputs.plan }} -var="hcp_client_id=${{ secrets.HCP_CLIENT_ID }}" -var="hcp_client_secret=${{ secrets.HCP_CLIENT_SECRET }}" -var="hvn_id=hv-personal-${{ env.environment }}" -var="aws_default_region=${{ secrets.AWS_DEFAULT_REGION }}"
+#        continue-on-error: false
+#
+#      - name: Terraform Plan Status
+#        if: steps.plan.outcome == 'failure'
+#        working-directory: ${{ env.work_dir}}
+#        run: exit 1
 
 #      - name: Terraform Apply
 #        id: apply
