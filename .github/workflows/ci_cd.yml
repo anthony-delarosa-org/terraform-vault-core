@@ -23,9 +23,9 @@ on:
         required: true
 
   # Default Working Directory
-#defaults:
-#  run:
-#    working-directory: workspaces/hcp
+defaults:
+  run:
+    working-directory: workspaces/hcp
   
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -35,32 +35,13 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v3
-        with:
-          path: tflint.d/plugins
-          key: ubuntu-latest-tflint-${{ hashFiles('.tflint.hcl') }}
-
-      - uses: terraform-linters/setup-tflint@v1
-        name: Setup TFLint
-        with:
-          tflint_version: latest
-
-      - name: Show version
-        run: tflint --version
-
-      - name: Init TFLint
-        run: tflint --init
-
-      - name: Run TFLint
-        run: tflint -f compact
-
-      - name: Show files
-        run: ls -la
-    #  - name: Lint Code Base
-    #    uses: github/super-linter/slim@v4
-    #    env:
-    #      VALIDATE_ALL_CODEBASE: false
-    #      DEFAULT_BRANCH: main
-    #      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+       
+      - name: Lint Code Base
+        uses: github/super-linter/slim@v4
+        env:
+          VALIDATE_ALL_CODEBASE: false
+          DEFAULT_BRANCH: main
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
 
   DeployDev:
     #if: "contains(github.event.head_commit.message, 'build')"
