@@ -3,7 +3,7 @@ terraform {
     organization = "anthony-devoperations"
 
     workspaces {
-      prefix = "hcp-"
+      tags = ['hcp']
     }
   }
 }
