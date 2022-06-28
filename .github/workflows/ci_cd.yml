@@ -42,7 +42,7 @@ jobs:
       - uses: terraform-linters/setup-tflint@v1
         name: Setup TFLint
         with:
-          tflint_version: v0.29.0
+          tflint_version: latest
 
       - name: Show version
         run: tflint --version
@@ -52,6 +52,9 @@ jobs:
 
       - name: Run TFLint
         run: tflint -f compact
+
+      - name: Show files
+        run: ls -la
     #  - name: Lint Code Base
     #    uses: github/super-linter/slim@v4
     #    env:
@@ -97,7 +100,7 @@ jobs:
       - name: Terraform Plan
         id: plan
         working-directory: ${{ env.work_dir }}
-        run: terraform ${{ github.event.inputs.plan }} -var="hcp_client_id=${{ secrets.HCP_CLIENT_ID }}" -var="hcp_client_secret=${{ secrets.HCP_CLIENT_SECRET }}" -var="hvn_id=hv-personal- ${{ env.environment }}" -var="aws_default_region=${{ secrets.AWS_DEFAULT_REGION }}"
+        run: terraform ${{ github.event.inputs.plan }} -var="hcp_client_id=${{ secrets.HCP_CLIENT_ID }}" -var="hcp_client_secret=${{ secrets.HCP_CLIENT_SECRET }}" -var="hvn_id=hv-personal-${{ env.environment }}" -var="aws_default_region=${{ secrets.AWS_DEFAULT_REGION }}"
         continue-on-error: false
 
       - name: Terraform Plan Status
