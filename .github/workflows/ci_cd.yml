@@ -71,8 +71,9 @@ jobs:
       - name: Terraform Init
         id: init
         working-directory: ${{ env.work_dir }}
-        run: 
-          terraform workspace select hcp-${{ env.environment }} && terraform init
+        run: |
+          terraform workspace select hcp-${{ env.environment }}
+          terraform init
 
       - name: Terraform Validate
         id: validate
