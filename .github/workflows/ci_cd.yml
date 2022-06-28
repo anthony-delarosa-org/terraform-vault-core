@@ -24,25 +24,25 @@ on:
   
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  Lint:
-    name: Lint Code Base
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Repo
-        uses: actions/checkout@v3
-       
-      - name: Lint Code Base
-        uses: github/super-linter/slim@v4
-        env:
-          VALIDATE_ALL_CODEBASE: false
-          DEFAULT_BRANCH: main
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+  #Lint:
+  #  name: Lint Code Base
+  #  runs-on: ubuntu-latest
+  #  steps:
+  #    - name: Checkout Repo
+  #      uses: actions/checkout@v3
+  #     
+  #    - name: Lint Code Base
+  #      uses: github/super-linter/slim@v4
+  #      env:
+  #        VALIDATE_ALL_CODEBASE: false
+  #        DEFAULT_BRANCH: main
+  #        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
 
   DevHCP:
     #if: "contains(github.event.head_commit.message, 'build')"
     name: Deploy HCP
     runs-on: ubuntu-latest
-    needs: [Lint]
+    #needs: [Lint]
     env:
       environment: dev
       work_dir: ./ent-infra-engineering-hcp/workspaces/dev/hcp
@@ -64,7 +64,7 @@ jobs:
       - name: Terraform fmt
         id: fmt
         working-directory: ${{ env.work_dir }}
-        run: terraform fmt -check
+        run: pwd && ls -la && terraform fmt -check
         continue-on-error: true
 
       - name: Terraform Init
@@ -96,7 +96,7 @@ jobs:
   StageHCP:
     #if: "contains(github.event.head_commit.message, 'build')"
     name: Deploy HCP
-    needs: [Lint]
+    needs: [DevHCP]
     runs-on: ubuntu-latest
     env:
       environment: stg
