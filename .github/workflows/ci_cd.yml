@@ -45,7 +45,7 @@ jobs:
     needs: [Lint]
     env:
       environment: dev
-      work_dir: ./ent-infra-engineering/hcp/workspaces/dev/hcp
+      work_dir: ./ent-infra-engineering-hcp/workspaces/dev/hcp
 
     steps:
       - name: Checkout Repo
@@ -97,7 +97,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       environment: stg
-      work_dir: ./ent-infra-engineering/hcp/workspaces/stg/hcp
+      work_dir: ./ent-infra-engineering-hcp/workspaces/stg/hcp
 
     steps:
       - name: Checkout Repo
