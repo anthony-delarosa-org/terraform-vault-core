@@ -36,7 +36,7 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v3
         with:
-          path: .tflint.d/plugins
+          path: tflint.d/plugins
           key: ubuntu-latest-tflint-${{ hashFiles('.tflint.hcl') }}
 
       - uses: terraform-linters/setup-tflint@v1
