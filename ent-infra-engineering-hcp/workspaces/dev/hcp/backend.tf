@@ -3,7 +3,7 @@ terraform {
     organization = "anthony-devoperations"
 
     workspaces {
-      name = "vault-cloud-core"
+      name = "hcp-dev"
     }
   }
 }
