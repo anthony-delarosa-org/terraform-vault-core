@@ -61,6 +61,8 @@ jobs:
           terraform_version: 1.2.2
           cli_config_credentials_token: ${{ secrets.TFC_API_KEY }}
           terraform_wrapper: false
+        env:
+          TF_WORKSPACE: "hcp-${{ env.environment }}"
 
       - name: Terraform fmt
         id: fmt
@@ -71,15 +73,12 @@ jobs:
       - name: Terraform Init
         id: init
         working-directory: ${{ env.work_dir }}
-        run: |
-          terraform workspace select hcp-${{ env.environment }}
-          terraform init
+        run: terraform init
 
       - name: Terraform Validate
         id: validate
         working-directory: ${{ env.work_dir }}
-        run: 
-          terraform validate -no-color
+        run: terraform validate -no-color
 
       - name: Terraform Plan
         id: plan
