@@ -51,7 +51,7 @@ jobs:
     env:
       environment: dev
       work_dir: ./workspaces/hcp
-      TF_WORKSPACE: "hcp-${{ env.environment }}"
+      TF_WORKSPACE: "hcp-dev"
 
     steps:
       - name: Checkout Repo
@@ -110,7 +110,7 @@ jobs:
 #    env:
 #      environment: stg
 #      work_dir: ./workspaces/hcp
-#      TF_WORKSPACE: "hcp-${{ env.environment }}"
+#      TF_WORKSPACE: "hcp-stg"
 
 #    steps:
 #      - name: Checkout Repo
