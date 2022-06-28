@@ -1,5 +1,5 @@
 module "hcp" {
-  source = "../modules/hcp"
+  source = "../../../../modules/hcp"
 
   hcp_client_id        = var.hcp_client_id
   hcp_client_secret    = var.hcp_client_secret
