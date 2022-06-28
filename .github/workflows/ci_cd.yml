@@ -58,6 +58,9 @@ jobs:
           cli_config_credentials_token: ${{ secrets.TFC_API_KEY }}
           terraform_wrapper: false
 
+      - name: List files
+        run: pwd && ls -la
+
       - name: Terraform fmt
         id: fmt
         working-directory: ${{ env.work_dir }}
