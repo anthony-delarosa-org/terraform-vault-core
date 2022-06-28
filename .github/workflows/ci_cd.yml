@@ -93,10 +93,10 @@ jobs:
         working-directory: ${{ env.work_dir}}
         run: exit 1
 
-#      - name: Terraform Apply
-#        id: apply
-#        working-directory: ${{ env.work_dir }}
-#        run: terraform ${{ github.event.inputs.apply }} -auto-approve -var="hcp_client_id=${{ secrets.HCP_CLIENT_ID }}" -var="hcp_client_secret=${{ secrets.HCP_CLIENT_SECRET }}" -var="hvn_id=hv-personal-${{ env.environment }}" -var="aws_default_region=${{ secrets.AWS_DEFAULT_REGION }}"
+      - name: Terraform Apply
+        id: apply
+        working-directory: ${{ env.work_dir }}
+        run: terraform ${{ github.event.inputs.apply }} -auto-approve -var="hcp_client_id=${{ secrets.HCP_CLIENT_ID }}" -var="hcp_client_secret=${{ secrets.HCP_CLIENT_SECRET }}" -var="hvn_id=hv-personal-${{ env.environment }}" -var="aws_default_region=${{ secrets.AWS_DEFAULT_REGION }}"
 
   StageHCP:
     #if: "contains(github.event.head_commit.message, 'build')"
@@ -145,10 +145,10 @@ jobs:
         working-directory: ${{ env.work_dir}}
         run: exit 1
 
- #     - name: Terraform Apply
- #       id: apply
- #       working-directory: ${{ env.work_dir }}
- #       run: terraform ${{ github.event.inputs.apply }} -auto-approve -var="hcp_client_id=${{ secrets.HCP_CLIENT_ID }}" -var="hcp_client_secret=${{ secrets.HCP_CLIENT_SECRET }}" -var="hvn_id=hv-personal-${{ env.environment }}" -var="aws_default_region=${{ secrets.AWS_DEFAULT_REGION }}"
+      - name: Terraform Apply
+        id: apply
+        working-directory: ${{ env.work_dir }}
+        run: terraform ${{ github.event.inputs.apply }} -auto-approve -var="hcp_client_id=${{ secrets.HCP_CLIENT_ID }}" -var="hcp_client_secret=${{ secrets.HCP_CLIENT_SECRET }}" -var="hvn_id=hv-personal-${{ env.environment }}" -var="aws_default_region=${{ secrets.AWS_DEFAULT_REGION }}"
 
 #  Stg:
 #    name: Deploy Vault Cluster
