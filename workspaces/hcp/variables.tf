@@ -23,3 +23,8 @@ variable "aws_default_region" {
   description = "The region of the HCP HVN and Vault cluster."
   type        = string
 }
+
+variable "workspace" {
+  description = "TFC Worksapce"
+  type        = string
+}

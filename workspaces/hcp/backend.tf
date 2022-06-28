@@ -3,7 +3,7 @@ terraform {
     organization = "anthony-devoperations"
 
     workspaces {
-      name = "hcp"
+      name = var.workspace
     }
   }
 }
