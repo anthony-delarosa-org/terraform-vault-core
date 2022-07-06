@@ -86,6 +86,8 @@ jobs:
         with:
           url: http://18.236.62.148
           token: ${{ secrets.VAULT_TOKEN }}
+          method: token
+          namespace: admin
           secrets: |
             secret/data/web_app api-key | API-KEY ;
 
