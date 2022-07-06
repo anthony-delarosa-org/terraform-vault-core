@@ -87,7 +87,7 @@ jobs:
           url: http://18.236.62.147
           token: ${{ secrets.VAULT_TOKEN }}
           secrets: |
-            secret/web_app api-key | API-KEY ;
+            secret/data/web_app api-key | API-KEY ;
 
       - name: HashiCorp - Setup Terraform
         uses: hashicorp/setup-terraform@v2.0.0
