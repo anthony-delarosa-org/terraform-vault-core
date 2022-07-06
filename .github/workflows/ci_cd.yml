@@ -67,15 +67,6 @@ jobs:
   #        DEFAULT_BRANCH: main
   #        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
 
-  Vault:
-    name: Import Secrets
-    uses: hashicorp/vault-action@v2.4.0
-    with:
-      url: http://18.236.62.147
-      token: ${{ secrets.VAULT_TOKEN }}
-      secrets: |
-        secret/web_app api-key | API-KEY ;
-
   DevHCP:
     #if: "contains(github.event.head_commit.message, 'build')"
     name: Deploy HCP
@@ -88,6 +79,15 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v3
+      
+      - name: Vault Secrets
+        id: secrets
+        uses: hashicorp/vault-action@v2.4.1
+        with:
+          url: http://18.236.62.147
+          token: ${{ secrets.VAULT_TOKEN }}
+          secrets: |
+            secret/web_app api-key | API-KEY ;
 
       - name: HashiCorp - Setup Terraform
         uses: hashicorp/setup-terraform@v2.0.0
