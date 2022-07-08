@@ -84,7 +84,7 @@ jobs:
         id: secrets
         uses: hashicorp/vault-action@v2.4.1
         with:
-          url: http://18.236.62.147
+          url: https://zkaqr8i5l1.execute-api.us-west-2.amazonaws.com/dev
           token: ${{ secrets.VAULT_TOKEN }}
           #method: token
           namespace: admin
