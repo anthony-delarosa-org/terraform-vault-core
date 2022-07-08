@@ -90,6 +90,8 @@ jobs:
           namespace: admin
           secrets: |
             secret/data/web_app api-key | API-KEY ;
+        env:
+          API-KEY: API-KEY
 
       - name: HashiCorp - Setup Terraform
         uses: hashicorp/setup-terraform@v2.0.0
@@ -99,7 +101,9 @@ jobs:
           terraform_wrapper: false
 
       - name: List files
-        run: pwd && ls -la
+        run: |
+          pwd && ls -la
+          echo $API-KEY
 
       - name: Terraform fmt
         id: fmt
