@@ -88,8 +88,8 @@ jobs:
           token: ${{ secrets.VAULT_TOKEN }}
           #method: token
           namespace: admin
-          #extraHeaders: |
-          #  x-api-key: ${{ secrets.API_KEY }}
+          extraHeaders: |
+            x-api-key: ${{ secrets.API_KEY }}
           secrets: |
             secret/data/web_app api-key | API-KEY ;
 
