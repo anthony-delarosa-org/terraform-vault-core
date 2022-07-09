@@ -88,6 +88,8 @@ jobs:
           token: ${{ secrets.VAULT_TOKEN }}
           #method: token
           namespace: admin
+          extraHeaders: |
+            x-api-key: ${{ secrets.API_KEY }}
           secrets: |
             secret/data/web_app api-key | API-KEY ;
 
@@ -101,7 +103,7 @@ jobs:
       - name: List files
         run: |
           pwd && ls -la
-          echo ${{env.API-KEY}}
+          echo "This is API Key: ${{env.API-KEY}}"
 
       - name: Terraform fmt
         id: fmt
