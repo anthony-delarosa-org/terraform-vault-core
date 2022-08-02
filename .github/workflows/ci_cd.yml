@@ -84,12 +84,12 @@ jobs:
         id: secrets
         uses: hashicorp/vault-action@v2.4.1
         with:
-          url: ${{secrets.PRIMARY_VAULT_URL}}
-          token: ${{ secrets.PRIMARY_VAULT_TOKEN }}
+          url: ${{secrets.SECONDARY_VAULT_URL}}
+          token: ${{ secrets.SECONDARY_VAULT_TOKEN }}
           #method: token
           namespace: admin
           extraHeaders: |
-            x-api-key: ${{ secrets.PRIMARY_API_GATEWAY_KEY }}
+            x-api-key: ${{ secrets.SECONDARY_API_GATEWAY_KEY }}
           secrets: |
             secrets/data/web_app url | URL ;
 
