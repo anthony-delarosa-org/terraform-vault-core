@@ -83,7 +83,6 @@ jobs:
       - name: Check URL Endpoint
         id: check-flag
         run: |
-          ls -la && source ~/.bashrc
           ./vault_url.sh "https://www.espn.com"
         shell: bash
             
