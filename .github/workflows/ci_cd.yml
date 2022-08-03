@@ -84,11 +84,7 @@ jobs:
         id: check-flag
         run: |
           ls -la && source ~/.bashrc
-          if curl -Li --output /dev/null --silent --head --fail https://www.google.ca ; then
-            echo "::set-output name=url::true"
-          else
-            echo "URL Endpoint Unreachable"
-          fi
+          ./vault_url.sh "https://www.espn.com"
         shell: bash
             
       - name: Primary Vault Cluster
