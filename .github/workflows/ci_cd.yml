@@ -83,11 +83,11 @@ jobs:
       - name: Check URL Endpoint
         id: check-flag
         run: |
-          if [ $(curl -LI https://${{ secrets.TEST_URL }} -o /dev/null -w '%{http_code}\n' -s) == "200" ]; 
+          if curl --head --silent --fail ${{ secrets.TEST_URL }} 2> /dev/null; 
             then echo "::set-output name=url::True"
           else
             echo False
-          fi
+       
         shell: bash
             
       - name: Primary Vault Cluster
