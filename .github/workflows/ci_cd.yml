@@ -95,7 +95,7 @@ jobs:
         uses: hashicorp/vault-action@v2.4.1
         if: steps.check-flag.url.outputs == 'True'
         with:
-          url: ${{secrets.PRIIMARY_VAULT_URL}}
+          url: ${{secrets.PRIMARY_VAULT_URL}}
           token: ${{ secrets.PRIMARY_VAULT_TOKEN }}
           #method: token
           namespace: admin
@@ -122,8 +122,15 @@ jobs:
         id: secondary-vault-closter
         uses: hashicorp/vault-action@v2.4.1
         if: steps.check-flag.url.outputs == 'False'
-        run: |
-          echo 'Using Secondary Vault Cluster'
+        with:
+          url: ${{secrets.SECONDARY_VAULT_URL}}
+          token: ${{ secrets.SECONDARY_VAULT_TOKEN }}
+          #method: token
+          namespace: admin
+          extraHeaders: |
+            x-api-key: ${{ secrets.SECONDARY_API_GATEWAY_KEY }}
+          secrets: |
+            secrets/data/web_app url | URL ;
  
 #      - name: Terraform fmt
 #        id: fmt
