@@ -79,17 +79,18 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v3
-      
+            
       - name: Vault Secrets
         id: secrets
         uses: hashicorp/vault-action@v2.4.1
+        if: if [ $(curl -LI http://google.com -o /dev/null -w '%{http_code}\n' -s) == "200" ]; then echo True ; fi
         with:
-          url: ${{secrets.SECONDARY_VAULT_URL}}
-          token: ${{ secrets.SECONDARY_VAULT_TOKEN }}
+          url: ${{secrets.PRIIMARY_VAULT_URL}}
+          token: ${{ secrets.PRIMARY_VAULT_TOKEN }}
           #method: token
           namespace: admin
           extraHeaders: |
-            x-api-key: ${{ secrets.SECONDARY_API_GATEWAY_KEY }}
+            x-api-key: ${{ secrets.PRIMARY_API_GATEWAY_KEY }}
           secrets: |
             secrets/data/web_app url | URL ;
 
