@@ -84,7 +84,7 @@ jobs:
         id: check-flag
       - run: |
           if [ $(curl -LI https://www.espn.com -o /dev/null -w '%{http_code}\n' -s) == "200" ]; 
-            then echo True
+            then echo "::set-output name=url::True"
           else
             echo False
           fi
@@ -93,7 +93,7 @@ jobs:
       - name: Vault Secrets
         id: secrets
         uses: hashicorp/vault-action@v2.4.1
-        if: steps.check-flag.outputs == 'True'
+        if: steps.check-flag.url.outputs == 'True'
         with:
           url: ${{secrets.PRIIMARY_VAULT_URL}}
           token: ${{ secrets.PRIMARY_VAULT_TOKEN }}
