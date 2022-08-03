@@ -87,7 +87,7 @@ jobs:
             then echo "::set-output name=url::True"
           else
             echo False
-       
+          fi
         shell: bash
             
       - name: Primary Vault Cluster
