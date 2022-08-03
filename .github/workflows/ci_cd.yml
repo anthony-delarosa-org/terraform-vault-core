@@ -88,6 +88,7 @@ jobs:
           else
             echo "URL Endpoint Unreachable"
           fi
+        shell: bash
             
       - name: Primary Vault Cluster
         id: primary-vault-cluster
