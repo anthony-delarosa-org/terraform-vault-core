@@ -83,8 +83,8 @@ jobs:
       - name: Check URL Endpoint
         id: check-flag
         run: |
-          if curl --output /dev/null --silent --head --fail https://www.espn.com ; 
-            then echo "::set-output name=url::True"
+          if curl --output /dev/null --silent --head --fail ${{ secrets.TEST_URL }} ; 
+            then echo "::set-output name=url::True True"
           else
             echo False
           fi
