@@ -121,7 +121,7 @@ jobs:
       - name: Secondary Vault Cluster
         id: secondary-vault-closter
         uses: hashicorp/vault-action@v2.4.1
-        if: steps.check-flag.url.outputs == 'False'
+        if: steps.check-flag.url.outputs != 'True'
         with:
           url: ${{secrets.SECONDARY_VAULT_URL}}
           token: ${{ secrets.SECONDARY_VAULT_TOKEN }}
