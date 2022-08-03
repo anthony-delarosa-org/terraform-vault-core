@@ -83,7 +83,12 @@ jobs:
       - name: Check URL Endpoint
         id: check-flag
         run: |
-          ./vault_url.sh "https://www.espn.com"
+          which curl
+          if curl -Li --output /dev/null --silent --head --fail https://www.google.ca ; then
+            echo "::set-output name=url::true"
+          else
+            echo "URL Endpoint Unreachable"
+          fi
         shell: bash
             
       - name: Primary Vault Cluster
