@@ -82,7 +82,7 @@ jobs:
         
       - name: Check URL Endpoint
         id: check-flag
-      - run: |
+        run: |
           if [ $(curl -LI https://www.espn.com -o /dev/null -w '%{http_code}\n' -s) == "200" ]; 
             then echo "::set-output name=url::True"
           else
