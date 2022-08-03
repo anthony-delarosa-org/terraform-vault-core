@@ -90,8 +90,8 @@ jobs:
           fi
         shell: bash
             
-      - name: Vault Secrets
-        id: secrets
+      - name: Primary Vault Cluster
+        id: primary-vault-cluster
         uses: hashicorp/vault-action@v2.4.1
         if: steps.check-flag.url.outputs == 'True'
         with:
@@ -106,16 +106,25 @@ jobs:
 
       - name: HashiCorp - Setup Terraform
         uses: hashicorp/setup-terraform@v2.0.0
+        if: steps.check-flag.url.outputs == 'True'
         with:
           terraform_version: 1.2.2
           cli_config_credentials_token: ${{ secrets.TFC_API_KEY }}
           terraform_wrapper: false
 
       - name: List files
+        if: steps.check-flag.url.outputs == 'True'
         run: |
           pwd && ls -la
           echo "This is API Key: ${{env.URL}}"
-
+          
+      - name: Secondary Vault Cluster
+        id: secondary-vault-closter
+        uses: hashicorp/vault-action@v2.4.1
+        if: steps.check-flag.url.outputs == 'False'
+        run: |
+          echo 'Using Secondary Vault Cluster'
+ 
 #      - name: Terraform fmt
 #        id: fmt
 #        working-directory: ${{ env.work_dir }}
