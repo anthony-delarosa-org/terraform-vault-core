@@ -83,7 +83,7 @@ jobs:
       - name: Check URL Endpoint
         id: check-flag
         run: |
-          if curl -Li --output /dev/null --silent --head --fail https://www.google.como ; then 
+          if curl -Li --output /dev/null --silent --head --fail ${{ secrets.PRIMARY_VAULT_URL }}; then 
             echo "::set-output name=vault_url::true"
           else
             echo 'URL Endpoint Unreachable'
