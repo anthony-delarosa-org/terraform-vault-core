@@ -105,7 +105,7 @@ jobs:
           extraHeaders: |
             x-api-key: ${{ secrets.PRIMARY_API_GATEWAY_KEY }}
           secrets: |
-            secrets/data/web_app url | URL ;
+            secrets/data/web_app api-key | API-KEY ;
 
       - name: HashiCorp - Setup Terraform
         uses: hashicorp/setup-terraform@v2.0.0
@@ -119,7 +119,7 @@ jobs:
         if: ${{ steps.check-flag.outputs.vault_url == 'true' }}
         run: |
           pwd && ls -la
-          echo "This is API Key: ${{env.URL}}"
+          echo "This is API Key: ${{env.API-KEY}}"
           
       - name: Secondary Vault Cluster
         id: secondary-vault-closter
