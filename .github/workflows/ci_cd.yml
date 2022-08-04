@@ -83,23 +83,18 @@ jobs:
       - name: Check URL Endpoint
         id: check-flag
         run: |
-          #if curl --header "x-api-key: ${{ secrets.PRIMARY_API_GATEWAY_KEY }}" -Li ${{ secrets.PRIMARY_VAULT_URL }} --output /dev/null --silent --head --fail ; then 
-          #  echo "::set-output name=vault_url::true"
-          #else
-          #  echo 'URL Endpoint Unreachable'
-          #fi
           if curl --header "x-api-key: ${{ secrets.PRIMARY_API_GATEWAY_KEY }}" -LI ${{ secrets.PRIMARY_VAULT_URL }} --head; then
-            echo "Checking connectivity to the primary Vault cluster"
+            echo "Checking connectivity to the Primary Vault cluster"
             echo "::set-output name=vault_token::${{ secrets.PRIMARY_VAULT_TOKEN }}" 
             echo "::set-output name=vault_url::${{ secrets.PRIMARY_VAULT_URL }}"
             echo "::set-output name=vault_api_key::${{ secrets.PRIMARY_API_GATEWAY_KEY }}"
-            echo "Primary Vault cluster is up. Using that connection."
+            echo "Primary Vault cluster is up and using that connection."
           elif curl --header "x-api-key: ${{ secrets.SECONDARY_API_GATEWAY_KEY }}" -LI ${{ secrets.SECONDARY_VAULT_URL }} --head ; then
-            echo "Checking connectivity to the secondary Vault cluster"
+            echo "Checking connectivity to the Secondary Vault cluster"
             echo "::set-output name=vault_token::${{ secrets.SECONDARY_VAULT_TOKEN }}" 
             echo "::set-output name=vault_url::${{ secrets.SECONDARY_VAULT_URL }}" 
             echo "::set-output name=vault_api_key::${{ secrets.SECONDARY_API_GATEWAY_KEY }}" 
-            echo "Secondary Vault cluster is up. Using that connection." 
+            echo "Secondary Vault cluster is up and using that connection." 
           else
             echo "Both Vaults are down or something went wrong."
           fi
@@ -119,7 +114,7 @@ jobs:
           extraHeaders: |
             x-api-key: ${{ steps.check-flag.outputs.vault_api_key }}
           secrets: |
-            secrets/data/web_app api-key | API-KEY ;
+            secrets/data/redis password | REDIS-PASSWORD ;
 
       - name: HashiCorp - Setup Terraform
         uses: hashicorp/setup-terraform@v2.0.0
@@ -131,7 +126,7 @@ jobs:
       - name: List files
         run: |
           pwd && ls -la
-          echo "This is API Key: ${{env.API-KEY}}"
+          echo "This is Redis Password: ${{env.REDIS-PASSWORD}}"
           
 #      - name: Secondary Vault Cluster
 #        id: secondary-vault-closter
