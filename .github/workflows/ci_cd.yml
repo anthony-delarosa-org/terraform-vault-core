@@ -84,7 +84,6 @@ jobs:
         id: check-flag
         run: |
           if [ -n ${{ secrets.PRIMARY_VAULT_URL }} ] // check if primary vault url value is set
-            echo "Checking connectivity to the primary Vault cluster"
             curl --header "x-api-key: ${{ secrets.PRYIMARY_API_GATEWAY_KEY }}" -Li ${{ secrets.PRIMARY_VAULT_URL }} --output /dev/null --silent --head --fail ; then 
             echo "::set-output name=vault_token::${{ secrets.PRIMARY_VAULT_TOKEN }}" 
             echo "::set-output name=vault_url::${{ secrets.PRIMARY_VAULT_URL }}"
