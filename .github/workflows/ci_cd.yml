@@ -84,7 +84,7 @@ jobs:
         id: check-flag
         run: |
           if curl -Li --output /dev/null --silent --head --fail https://www.google.ca ; then 
-            echo ::set-output name=url::true
+            echo ""::set-output name=vault_url::true"
           else
             echo 'URL Endpoint Unreachable'
           fi
@@ -92,7 +92,7 @@ jobs:
       - name: Primary Vault Cluster
         id: primary-vault-cluster
         uses: hashicorp/vault-action@v2.4.1
-        if: steps.check-flag.url.outputs == 'true'
+        if: steps.check-flag.vault_url == true
         with:
           url: ${{ secrets.PRIMARY_VAULT_URL }}
           token: ${{ secrets.PRIMARY_VAULT_TOKEN }}
@@ -105,14 +105,14 @@ jobs:
 
       - name: HashiCorp - Setup Terraform
         uses: hashicorp/setup-terraform@v2.0.0
-        if: steps.check-flag.url.outputs == 'true'
+        if: steps.check-flag.vault_url == true
         with:
           terraform_version: 1.2.2
           cli_config_credentials_token: ${{ secrets.TFC_API_KEY }}
           terraform_wrapper: false
 
       - name: List files
-        if: steps.check-flag.url.outputs == 'true'
+        if: steps.check-flag.vault_url == true
         run: |
           pwd && ls -la
           echo "This is API Key: ${{env.URL}}"
@@ -120,7 +120,7 @@ jobs:
       - name: Secondary Vault Cluster
         id: secondary-vault-closter
         uses: hashicorp/vault-action@v2.4.1
-        if: steps.check-flag.url.outputs != 'true'
+        if: steps.check-flag.vault_url != true
         with:
           url: ${{secrets.SECONDARY_VAULT_URL}}
           token: ${{ secrets.SECONDARY_VAULT_TOKEN }}
