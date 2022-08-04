@@ -133,7 +133,7 @@ jobs:
           extraHeaders: |
             x-api-key: ${{ secrets.SECONDARY_API_GATEWAY_KEY }}
           secrets: |
-            secrets/data/web_app url | URL ;
+            secrets/data/web_app api-key | API-KEY ;
  
 #      - name: Terraform fmt
 #        id: fmt
