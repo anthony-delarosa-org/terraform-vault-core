@@ -88,6 +88,8 @@ jobs:
           else
             echo 'URL Endpoint Unreachable'
           fi
+      - name: Display
+        run: echo "Check Flag: ${{ steps.check-flag.outputs.vault_url }}"
             
       - name: Primary Vault Cluster
         id: primary-vault-cluster
