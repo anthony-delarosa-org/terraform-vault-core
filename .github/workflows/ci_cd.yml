@@ -109,14 +109,14 @@ jobs:
 
       - name: HashiCorp - Setup Terraform
         uses: hashicorp/setup-terraform@v2.0.0
-        if: steps.check-flag.vault_url == true
+        if: ${{ steps.check-flag.outputs.vault_url == 'true' }}
         with:
           terraform_version: 1.2.2
           cli_config_credentials_token: ${{ secrets.TFC_API_KEY }}
           terraform_wrapper: false
 
       - name: List files
-        if: steps.check-flag.vault_url == true
+        if: ${{ steps.check-flag.outputs.vault_url == 'true' }}
         run: |
           pwd && ls -la
           echo "This is API Key: ${{env.URL}}"
@@ -124,7 +124,7 @@ jobs:
       - name: Secondary Vault Cluster
         id: secondary-vault-closter
         uses: hashicorp/vault-action@v2.4.1
-        if: steps.check-flag.vault_url != true
+        if: ${{ steps.check-flag.outputs.vault_url != 'true' }}
         with:
           url: ${{secrets.SECONDARY_VAULT_URL}}
           token: ${{ secrets.SECONDARY_VAULT_TOKEN }}
