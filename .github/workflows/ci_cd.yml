@@ -96,7 +96,7 @@ jobs:
       - name: Primary Vault Cluster
         id: primary-vault-cluster
         uses: hashicorp/vault-action@v2.4.1
-        if: steps.check-flag.vault_url == true
+        if: ${{ steps.check-flag.outputs.vault_url == 'true' }}
         with:
           url: ${{ secrets.PRIMARY_VAULT_URL }}
           token: ${{ secrets.PRIMARY_VAULT_TOKEN }}
