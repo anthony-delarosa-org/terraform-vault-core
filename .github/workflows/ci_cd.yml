@@ -84,7 +84,7 @@ jobs:
         id: check-flag
         run: |
           if curl -Li --output /dev/null --silent --head --fail https://www.google.ca ; then 
-            echo ""::set-output name=vault_url::true"
+            echo "::set-output name=vault_url::true"
           else
             echo 'URL Endpoint Unreachable'
           fi
