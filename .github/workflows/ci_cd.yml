@@ -83,11 +83,12 @@ jobs:
       - name: Check URL Endpoint
         id: check-flag
         run: |
-          if curl -Li --output /dev/null --silent --head --fail https://www.google.ca ; then
+          if curl -Li --output /dev/null --silent --head --fail https://www.google.ca ; then 
             echo "::set-output name=url::true"
           else
             echo "URL Endpoint Unreachable"
           fi
+        shell: run
             
       - name: Primary Vault Cluster
         id: primary-vault-cluster
