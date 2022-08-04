@@ -83,13 +83,13 @@ jobs:
       - name: Check URL Endpoint
         id: check-flag
         run: |
-          if [ $(curl --header "x-api-key: ${{ secrets.PRIMARY_API_GATEWAY_KEY }}" ${{ secrets.PRIMARY_VAULT_URL }} -o /dev/null -w %{http_code}\n' -s) == "200" ]; then
+          if [ $(curl --header "x-api-key: ${{ secrets.PRIMARY_API_GATEWAY_KEY }}" ${{ secrets.PRIMARY_VAULT_URL }} -o /dev/null -w '%{http_code}\n' -s) == "200" ]; then
             echo "Checking connectivity to the Primary Vault cluster"
             echo "::set-output name=vault_token::${{ secrets.PRIMARY_VAULT_TOKEN }}" 
             echo "::set-output name=vault_url::${{ secrets.PRIMARY_VAULT_URL }}"
             echo "::set-output name=vault_api_key::${{ secrets.PRIMARY_API_GATEWAY_KEY }}"
             echo "Primary Vault cluster is up and using that connection."
-          elif [ $(curl --header "x-api-key: ${{ secrets.SECONDARY_API_GATEWAY_KEY }}" ${{ secrets.SECONDARY_VAULT_URL }} -o /dev/null -w %{http_code}\n' -s) == "200" ]; then
+          elif [ $(curl --header "x-api-key: ${{ secrets.SECONDARY_API_GATEWAY_KEY }}" ${{ secrets.SECONDARY_VAULT_URL }} -o /dev/null -w '%{http_code}\n' -s) == "200" ]; then
             echo "Checking connectivity to the Secondary Vault cluster"
             echo "::set-output name=vault_token::${{ secrets.SECONDARY_VAULT_TOKEN }}" 
             echo "::set-output name=vault_url::${{ secrets.SECONDARY_VAULT_URL }}" 
