@@ -108,8 +108,8 @@ jobs:
         run: |
           echo "Check Flag: ${{ steps.check-flag.outputs.vault_url }}"
             
-      - name: Primary Vault Cluster
-        id: primary-vault-cluster
+      - name: Vault Cluster
+        id: vault-cluster
         uses: hashicorp/vault-action@v2.4.1
         with:
           url: ${{ steps.check-flag.outputs.vault_url }}
