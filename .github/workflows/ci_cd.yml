@@ -83,10 +83,22 @@ jobs:
       - name: Check URL Endpoint
         id: check-flag
         run: |
-          if curl --header "x-api-key: ${{ secrets.PRIMARY_API_GATEWAY_KEY }}" -Li ${{ secrets.PRIMARY_VAULT_URL }} --output /dev/null --silent --head --fail ; then 
-            echo "::set-output name=vault_url::true"
+          if [ -n ${{ secrets.PRIMARY_VAULT_URL }} ] // check if primary vault url value is set
+            echo "Checking connectivity to the primary Vault cluster"
+            curl --header "x-api-key: ${{ secrets.PRYIMARY_API_GATEWAY_KEY }}" -Li ${{ secrets.PRIMARY_VAULT_URL }} --output /dev/null --silent --head --fail ; then 
+            echo "::set-output name=vault_token::${{ secrets.PRIMARY_VAULT_TOKEN }}"
+            echo "::set-output name=vault_url::${{ secrets.PRIMARY_VAULT_URL }}"
+            echo "::set-output name=vault_api_key::${{ secrets.PRIMARY_API_GATEWAY_KEY }}"
+            echo "Primary Vault cluster is up. Using that connection."
           else
-            echo 'URL Endpoint Unreachable'
+            echo "Checking connectivity to the secondary Vault cluster"
+            curl --header "x-api-key: ${{ secrets.SECONDARY_API_GATEWAY_KEY }}" -Li ${{ secrets.SECONDARY_VAULT_URL }} --output /dev/null --silent --head --fail ; then 
+            echo "::set-output name=vault_token::${{ secrets.SECONDARY_VAULT_TOKEN }}"
+            echo "::set-output name=vault_url::${{ secrets.SECONDARY_VAULT_URL }}"
+            echo "::set-output name=vault_api_key::${{ secrets.SECONDARY_API_GATEWAY_KEY }}"
+            echo "Secondary Vault cluster is up. Using that connection."
+          else
+            echo 'Both Vaults are down or something went wrong.'
           fi
 
       - name: Display
@@ -96,44 +108,40 @@ jobs:
       - name: Primary Vault Cluster
         id: primary-vault-cluster
         uses: hashicorp/vault-action@v2.4.1
-        if: ${{ steps.check-flag.outputs.vault_url == 'true' }}
         with:
-          url: ${{ secrets.PRIMARY_VAULT_URL }}
-          token: ${{ secrets.PRIMARY_VAULT_TOKEN }}
+          url: ${{ steps.check-flag.outputs.vault_url }}
+          token: ${{ steps.check-flag.outputs.vault_token }}
           #method: token
           namespace: admin
           extraHeaders: |
-            x-api-key: ${{ secrets.PRIMARY_API_GATEWAY_KEY }}
+            x-api-key: ${{ steps.check-flag.outputs.vault_api_key }}
           secrets: |
             secrets/data/web_app api-key | API-KEY ;
 
       - name: HashiCorp - Setup Terraform
         uses: hashicorp/setup-terraform@v2.0.0
-        if: ${{ steps.check-flag.outputs.vault_url == 'true' }}
         with:
           terraform_version: 1.2.2
           cli_config_credentials_token: ${{ secrets.TFC_API_KEY }}
           terraform_wrapper: false
 
       - name: List files
-        if: ${{ steps.check-flag.outputs.vault_url == 'true' }}
         run: |
           pwd && ls -la
           echo "This is API Key: ${{env.API-KEY}}"
           
-      - name: Secondary Vault Cluster
-        id: secondary-vault-closter
-        uses: hashicorp/vault-action@v2.4.1
-        if: ${{ steps.check-flag.outputs.vault_url != 'true' }}
-        with:
-          url: ${{secrets.SECONDARY_VAULT_URL}}
-          token: ${{ secrets.SECONDARY_VAULT_TOKEN }}
-          #method: token
-          namespace: admin
-          extraHeaders: |
-            x-api-key: ${{ secrets.SECONDARY_API_GATEWAY_KEY }}
-          secrets: |
-            secrets/data/web_app api-key | API-KEY ;
+#      - name: Secondary Vault Cluster
+#        id: secondary-vault-closter
+#        uses: hashicorp/vault-action@v2.4.1
+#        with:
+#          url: ${{secrets.SECONDARY_VAULT_URL}}
+#          token: ${{ secrets.SECONDARY_VAULT_TOKEN }}
+#          #method: token
+#          namespace: admin
+#          extraHeaders: |
+#            x-api-key: ${{ secrets.SECONDARY_API_GATEWAY_KEY }}
+#          secrets: |
+#            secrets/data/web_app api-key | API-KEY ;
  
 #      - name: Terraform fmt
 #        id: fmt
