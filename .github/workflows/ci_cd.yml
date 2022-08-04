@@ -90,7 +90,7 @@ jobs:
             echo "::set-output name=vault_api_key::${{ secrets.PRIMARY_API_GATEWAY_KEY }}"
             echo "Primary Vault cluster is up. Using that connection."
           else
-            curl --header "x-api-key: ${{ secrets.SECONDARY_API_GATEWAY_KEY }}" -Li ${{ secrets.SECONDARY_VAULT_URL }} --output /dev/null --silent --head --fail ; then 
+            curl --header "x-api-key: ${{ secrets.SECONDARY_API_GATEWAY_KEY }}" -Li ${{ secrets.SECONDARY_VAULT_URL }} --output /dev/null --silent --head --fail
             echo "::set-output name=vault_token::${{ secrets.SECONDARY_VAULT_TOKEN }}" 
             echo "::set-output name=vault_url::${{ secrets.SECONDARY_VAULT_URL }}" 
             echo "::set-output name=vault_api_key::${{ secrets.SECONDARY_API_GATEWAY_KEY }}" 
