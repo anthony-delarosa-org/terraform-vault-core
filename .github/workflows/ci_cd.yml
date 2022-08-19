@@ -114,7 +114,7 @@ jobs:
           extraHeaders: |
             x-api-key: ${{ steps.check-flag.outputs.vault_api_key }}
           secrets: |
-            secrets/data/redis_password | REDIS-PASSWORD ;
+            secrets/data/redis redis_password | REDIS-PASSWORD ;
 
       - name: HashiCorp - Setup Terraform
         uses: hashicorp/setup-terraform@v2.0.0
