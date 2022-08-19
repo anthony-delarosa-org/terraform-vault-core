@@ -114,7 +114,8 @@ jobs:
           extraHeaders: |
             x-api-key: ${{ steps.check-flag.outputs.vault_api_key }}
           secrets: |
-            secrets/data/hcp_creds hcp_username | HCP-USERNAME
+            secrets/data/hcp_creds hcp_username | HCP-USERNAME ;
+            secrets/data/hcp_creds hcp_password | HCP-PASSWORD ;
 
       - name: HashiCorp - Setup Terraform
         uses: hashicorp/setup-terraform@v2.0.0
