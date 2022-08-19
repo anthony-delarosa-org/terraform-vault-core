@@ -114,7 +114,8 @@ jobs:
           extraHeaders: |
             x-api-key: ${{ steps.check-flag.outputs.vault_api_key }}
           secrets: |
-            secrets/data/redis redis_password | REDIS-PASSWORD ;
+            secrets/data/hcp_creds hcp_username | HCP-USERNAME
+            secrets/data/hcp_creds hcp_password | HCP-PASSWORD
 
       - name: HashiCorp - Setup Terraform
         uses: hashicorp/setup-terraform@v2.0.0
@@ -125,4 +126,4 @@ jobs:
 
       - name: Print Password from Vault
         run: |
-          echo "This is Redis Password: ${{env.REDIS-PASSWORD}}"
+          echo "These are the Creds extracted from Vault: ${{env.HCP-USERNAME}} ${{env.HCP-PASSWORD}}"
