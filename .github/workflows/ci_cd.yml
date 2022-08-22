@@ -23,9 +23,9 @@ on:
         required: true
 
   # Default Working Directory
-defaults:
-  run:
-    working-directory: ./ent-infra-engineering-hcp/workspaces/dev/hcp
+#defaults:
+  #run:
+  #  working-directory: ./ent-infra-engineering-hcp/workspaces/dev/hcp
   
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
